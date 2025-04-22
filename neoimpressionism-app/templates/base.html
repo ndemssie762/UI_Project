@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Neo-Impressionism Explorer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    {% if page == 'home' %}
+        <div class="text-center">
+            <h1>Welcome to the Neo-Impressionism Explorer!</h1>
+            <p>Explore the art of Neo-Impressionism and learn to recognize its unique techniques.</p>
+            <a href="{{ url_for('learn', lesson_id=1) }}" class="btn btn-primary btn-lg">Start Learning</a>
+        </div>
+    {% elif page == 'learn' %}
+        <h2>{{ lesson.title }}</h2>
+        {% if lesson.image %}
+            <img src="{{ lesson.image }}" class="lesson-img" alt="Lesson image">
+        {% endif %}
+        <div class="mb-4">{{ lesson.content|safe }}</div>
+        <div>
+            {% if lesson_id > 1 %}
+                <a href="{{ url_for('learn', lesson_id=lesson_id-1) }}" class="btn btn-outline-secondary">Previous</a>
+            {% endif %}
+            {% if lesson_id < total_lessons %}
+                <a href="{{ url_for('learn', lesson_id=lesson_id+1) }}" class="btn btn-primary">Next</a>
+            {% else %}
+                <a href="{{ url_for('quiz', question_id=1) }}" class="btn btn-success">Start Quiz</a>
+            {% endif %}
+        </div>
+    {% elif page == 'quiz' %}
+        <div class="quiz-container" data-question-id="{{ question_id }}" data-next-url="{% if question_id < total_questions %}{{ url_for('quiz', question_id=question_id+1) }}{% else %}{{ url_for('results') }}{% endif %}">
+            <h3>Question {{ question_id }}</h3>
+            <p>{{ question.question }}</p>
+            {% if question.image %}
+                <img src="{{ question.image }}" class="quiz-img" alt="Quiz image">
+            {% endif %}
+            {% for option in question.options %}
+                <button class="btn btn-outline-primary quiz-option" data-index="{{ loop.index0 }}">{{ option }}</button>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
