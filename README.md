@@ -1,5 +1,5 @@
 # UI_Project
-Insturctions:
+Instructions:
 1. Clone the Repository
 git clone [https://github.com/your-username/your-repo-name.git](https://github.com/ndemssie762/UI_Project/edit/main/README.md)
 cd your-repo-name
