@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="text-center mt-5">
+    <h2>Quiz Results</h2>
+    <div class="score mb-3">{{ score }} / {{ total }}</div>
+    <p>Thank you for exploring Neo-Impressionism!</p>
+    <a href="{{ url_for('home') }}" class="btn btn-primary mt-3">Restart</a>
+    <hr>
+    <h4>Review Your Answers</h4>
+    <ul class="list-group">
+        {% for i in range(1, total+1) %}
+            {% set key = i|string %}
+            <li class="list-group-item">
+                <strong>Q{{ i }}:</strong> {{ quiz_questions[i-1].question }}<br>
+                <span>Your answer: 
+                    {% if key in answers %}
+                        {{ quiz_questions[i-1].options[answers[key]|int] }}
+                    {% else %}
+                        <em>No answer</em>
+                    {% endif %}
+                </span><br>
+                <span>Correct answer: {{ quiz_questions[i-1].options[quiz_questions[i-1].correct] }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
